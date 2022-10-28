@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  <title>DB Forum</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link
+    rel="stylesheet"
+    href="https://www.w3schools.com/lib/w3-theme-blue-grey.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <style>
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: "Open Sans", sans-serif;
+    }
+    .profile-card:hover{
+      opacity: 0.7;
+    }
+  </style>
+  <body class="w3-theme-l5">
+    <!-- Navbar -->
+    <div class="w3-top">
+      <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+        <a
+          class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
+          href="javascript:void(0);"
+          onclick="openNav()"
+          ><i class="fa fa-bars"></i
+        ></a>
+        <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"
+          ><i class="fa fa-home w3-margin-right"></i>Home</a
+        >
+        <a 
+        class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"
+        href="/logout"
+        >
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </a>
+        <a
+          href="/profile"
+          class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"
+          title="My Account"
+        >
+          <img
+            src="/img/person.png"
+            class="w3-circle"
+            style="height: 23px; width: 23px;"
+            alt="Avatar"
+          />
+        </a>
+      </div>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div
+      id="navDemo"
+      class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large"
+    >
+      <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+    </div>
+    <!-- Page Container -->
+    <div
+      class="w3-container w3-content"
+      style="max-width: 1400px; margin-top: 80px;"
+    >
+      <!-- The Grid -->
+      <div class="w3-row">
+        <!-- Left Column -->
+        <div class="w3-col m3">
+          <!-- Profile -->
+          <div style="border-radius: 25px;" class="w3-card w3-round w3-white">
+            <a href="/profile" style="text-decoration: none;">
+            <div style="cursor: pointer;" class="w3-container profile-card">
+              <h4 class="w3-center">My Profile</h4>
+              <p class="w3-center">
+                <img
+                  src="/img/<%= user.img %>"
+                  class="w3-circle"
+                  style="height: 110px; width: 110px;"
+                  alt="Avatar"
+                />
+              </p>
+              <hr />
+              <p>
+                <i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>
+                <%= user.job %>
+              </p>
+              <p>
+                <i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>
+                <%= user.address %>
+              </p>
+              <p>
+                <i
+                  class="fa fa-envelope fa-fw w3-margin-right w3-text-theme"
+                ></i>
+                <%= user.email %>
+              </p>
+            </div>
+          </a>
+          </div>
+          <br />
+          <!-- End Left Column -->
+        </div>
+
+        <!-- Middle Column -->
+        <div  style="border-radius: 25px;" class="w3-col m7">
+          <div class="w3-row-padding">
+            <div class="w3-col m12">
+              <div style="border-radius: 25px;" class="w3-card w3-round w3-white">
+                <div  class="w3-container w3-padding">
+                  <h6 class="w3-opacity">Database Forum By Mohammad Naseri</h6>
+
+                  <form id="post-form" action="/home/sendpost" method="post" enctype="multipart/form-data">
+                    <textarea rows="4" cols="50" style="width: 95%;margin: 15px;" form="post-form" name="postBody" id="postBody" placeholder=" Type Your Post Here ..."></textarea>
+                    <input type="file" name="image" id="postImg" form="post-form" class="w3-button w3-theme" style="border-radius: 25px;margin-left: 15px;">
+                    <input type="submit" style="border-radius: 25px; height: 45px;" type="button" class="w3-button w3-theme">
+                    </input>
+                  </form>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% posts.forEach((post, index) => { %>
+          <div style="border-radius: 25px;" class="w3-container w3-card w3-white w3-round w3-margin post-card">
+            <br />
+            <% if (post.userImg == null){ %>
+            <img
+              src="/img/person.png"
+              alt="Avatar"
+              class="w3-left w3-circle w3-margin-right"
+              style="width: 60px;"
+            />
+            <% }else { %>
+            <img
+            src="/img/<%= post.userImg %>"
+            alt="Avatar"
+            class="w3-left w3-circle w3-margin-right"
+            style="width: 60px;"
+            />
+            <% } %>
+            <!-- <span class="w3-right w3-opacity">1 min</span> -->
+            <h4><%= post.name %></h4>
+            <br />
+            <hr class="w3-clear" />
+            <textarea rows="10" style="width: 100%;border: none;min-height: 15px;max-height: 400px;" readonly><%= post.body %></textarea>
+            <div class="w3-row-padding" style="margin: 0 -16px;">
+              <div>
+                <% if (post.img !== null) { %>
+                <img
+                  src="/img/<%= post.img %>"
+                  style="width: 100%;"
+                  alt="Image"
+                  class="w3-margin-bottom"
+                />
+                <% } %>
+              </div>
+            </div>
+            <button
+              style="border-radius: 25px;"
+              type="button"
+              class="w3-button w3-theme-d1 w3-margin-bottom"
+            >
+              <i class="fa fa-thumbs-up"></i> Like
+            </button>
+            <button
+              style="border-radius: 25px;"
+              type="button"
+              class="w3-button w3-theme-d2 w3-margin-bottom"
+            >
+              <i class="fa fa-comment"></i> Comment
+            </button>
+          </div>
+          <% }) %>
+          <!-- End Middle Column -->
+        </div>
+
+        <!-- Right Column -->
+        <div class="w3-col m2">
+          <div style="border-radius: 25px;height: 200px;" class="w3-card w3-round w3-white w3-padding-16 w3-center">
+            <p>ADS</p>
+          </div>
+          <br />
+
+          <div style="border-radius: 25px;" class="w3-card w3-round w3-white w3-padding-32 w3-center">
+            <p><i class="fa fa-bug w3-xxlarge"></i></p>
+          </div>
+
+          <!-- End Right Column -->
+        </div>
+
+        <!-- End Grid -->
+      </div>
+
+      <!-- End Page Container -->
+    </div>
+    <br />
+
+    <!-- Footer -->
+    <footer class="w3-container w3-theme-d3 w3-padding-16">
+      <h5>Footer</h5>
+    </footer>
+  </body>
+
+  <script>
+    function logout(){
+      global.user.acc_id = 0;
+    }
+    function openNav() {
+      var x = document.getElementById("navDemo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+    var textarea = document.querySelector('textarea');
+
+    textarea.addEventListener('keydown', autosize);
+                
+    function autosize(){
+      var el = this;
+      setTimeout(function(){
+        el.style.cssText = 'height:auto; padding:0';
+        // for box-sizing other than "content-box" use:
+        // el.style.cssText = '-moz-box-sizing:content-box';
+        el.style.cssText = 'height:' + el.scrollHeight + 'px';
+      },0);
+    }  
+  </script>
+</html>
